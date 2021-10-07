@@ -1,0 +1,4 @@
+* Dxf notes
+    - Cut out shapes are represented as polylines.
+    - Polylines start with sequence of gcodes.
+    - Data is parsed 2 lines at a time - gCode & value.

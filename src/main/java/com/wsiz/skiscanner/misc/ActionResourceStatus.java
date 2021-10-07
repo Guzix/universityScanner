@@ -1,0 +1,17 @@
+package com.wsiz.skiscanner.misc;
+
+public enum ActionResourceStatus {
+    OK,
+    WEAK_PERMISSIONS,
+    UNEXPECTED_ERROR,
+    API_DOES_NOT_REPLY,
+    PARTIAL_SUCCESS,
+    REPLY_TIMEOUT,
+    OBJECT_DOES_NOT_EXIST,
+    UNKNOWN,
+    TO_MANY_OBJECTS,
+    WRONG_USER,
+    OK_CONTAINS_WRONG_PRODUCTS,
+    OBJECT_ALREADY_ASSIGNED,
+    WRONG_STATUS,
+}

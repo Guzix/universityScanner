@@ -1,134 +1,40 @@
+@import '~antd/dist/antd.css';
+
 .App {
-  text-align: center;
+    text-align: center;
 }
 
 .App-logo {
-  height: 40vmin;
-  pointer-events: none;
+    height: 40vmin;
+    pointer-events: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+    background-color: #282c34;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: white;
 }
 
 .App-link {
-  color: #61dafb;
+    color: #61dafb;
 }
 
 @keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.modal-dialog {
-    max-width: none;
-}
-
-.modal-90w {
-    max-width: 90% !important;
-}
-
-.modal-80w {
-    max-width: 80% !important;
-}
-
-.overlay-spinner-container {
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255,255,255, 0.5);
-    position: absolute;
-    z-index: 1;
-    display:flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.ant-notification {
-    z-Index: 9999 !important;
-}
-
-.diagram-test {
-    width: 100%;
-    height: 500px;
-}
-
-.inline-product-generation-container {
-    display: flex;
-    align-items: center;
-}
-
-.inline-product-generation-container {
-    /*flex: 2 2;*/
-}
-
-.graph-container {
-    width: 100%;
-    height: 500px;
-    /*background-color: ghostwhite;*/
-    border-radius: 1em;
-    overflow-y: hidden;
-    /*border: 1px solid black;*/
-    /*box-shadow: 1px 1px 7px 0px black;*/
-    /*margin-bottom: 5em;*/
-}
-
-.cursor-pointer {
-    cursor: pointer;
-}
-
-.generated-cut-image {
-    width: 100%;
-    height: 500px;
-    background-color: lightgrey;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
-    border: 1px solid grey;
-    border-radius: 5px;
-}
-
-.ant-row-highlighted {
-    background-color: lightgrey;
-    /*color: white;*/
-}
-
-.ant-row-cursor {
-    cursor: pointer;
-}
-
-.basic-v-margin {
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-}
-
-.diagram-button {
-    font-size: 8px !important;
-    padding: 0 3px !important;
-    height: 15px !important;
-}
-
-.table-operator-height{
-    height: 7em;
-}
-
-.right-aligned-product {
-    /*background-color: red !important;*/
-    text-align: right;
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.dom4j.Text;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Data
@@ -15,5 +15,8 @@ import javax.persistence.Entity;
 @NoArgsConstructor
 public class ScriptsJS extends BaseEntity{
 
-    private String testScript;
+    private String title;
+
+    @Column(columnDefinition = "TEXT")
+    private String content;
 }

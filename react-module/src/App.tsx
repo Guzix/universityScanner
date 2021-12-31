@@ -1,15 +1,13 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Col, Layout, Menu, Row} from "antd";
 import {AppNavbar} from "./AppNavbar";
-import {SkiSkannerHomePage} from "./page/home/SkiSkannerHomePage";
-import {SkiSkannerListPage} from "./page/list/SkiSkannerListPage";
-import {SkiSkannerPage} from "./page/skiResort/SkiSkannerPage";
-import {SkiSkannerTopPage} from "./page/top/SkiSkannerTopPage";
-import {SkiSkannerMapPage} from "./page/map/SkiSkannerMapPage";
-import {SkiSkannerComparisonsPage} from "./page/comparison/SkiSkannerComparisonsPage";
+import {ListPage} from "./page/list/ListPage";
+import {MapPage} from "./page/map/MapPage";
+import {HomePage} from "./page/home/HomePage";
+import {UniversityPage} from "./page/university/UniversityPage";
+import {AdminPage} from "./page/admin/AdminPage";
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -24,20 +22,18 @@ export const EmptyComponent: React.FC<{}> = () => {
 
 export enum AppPage {
   HOME_PAGE,
-  SKI_RESORT_LIST,
-  SKI_RESORT,
-  TOP_SKI_RESORT,
+  LIST,
   MAP,
-  COMPARE_SKI_RESORT
+  ADMIN,
+  UNIVERSITY
 }
 
 export enum PagePath {
   HOME = "/home",
-  SKI_RESORT_LIST = "/ski-resort/list",
-  SKI_RESORT = "/ski-resort",
-  TOP_SKI_RESORT = "/ski-resort/top",
-  MAP = "/ski-resort/map",
-  COMPARE_SKI_RESORT = "/ski-resort/comparisons"
+  LIST = "/university/list",
+  UNIVERSITY = "/university",
+  ADMIN = "/admin",
+  MAP = "/university/map",
 }
 
 export type AppDef = {
@@ -48,33 +44,25 @@ export type AppDef = {
 }
 
 export const appDefs: AppDef[] = [
-  {page: AppPage.HOME_PAGE, path: PagePath.HOME, component: SkiSkannerHomePage, isTableView: true},
-  {page: AppPage.SKI_RESORT_LIST, path: PagePath.SKI_RESORT_LIST, component: SkiSkannerListPage, isTableView: true},
-  {page: AppPage.SKI_RESORT, path: PagePath.SKI_RESORT, component: SkiSkannerPage, isTableView: false},
-  {page: AppPage.TOP_SKI_RESORT, path: PagePath.TOP_SKI_RESORT, component: SkiSkannerTopPage, isTableView: true},
-  {page: AppPage.MAP, path: PagePath.MAP, component: SkiSkannerMapPage, isTableView: true},
-  {page: AppPage.COMPARE_SKI_RESORT, path: PagePath.COMPARE_SKI_RESORT, component: SkiSkannerComparisonsPage, isTableView: true}
+  {page: AppPage.HOME_PAGE, path: PagePath.HOME, component: HomePage, isTableView: true},
+  {page: AppPage.LIST, path: PagePath.LIST, component: ListPage, isTableView: true},
+  {page: AppPage.MAP, path: PagePath.MAP, component: MapPage, isTableView: true},
+  {page: AppPage.UNIVERSITY, path: PagePath.UNIVERSITY, component: UniversityPage, isTableView:false},
+  {page: AppPage.ADMIN, path: PagePath.ADMIN, component: AdminPage, isTableView:true}
 ]
 
 function App() {
   return (
       <Router>
         <Layout>
-          <Sider
-              style={{
-                overflow: 'auto',
-                height: '100vh',
-                position: 'fixed',
-                left: 0,
-              }}
-          >
+          <div>
             <AppNavbar/>
-          </Sider>
+          </div>
           <Layout className="site-layout"
                   style={{
-                    marginLeft: 200,
+
                     overflow: 'auto',
-                    height: '100vh',
+                    height: '100vw',
                   }}>
             <Switch>
               {appDefs.map(ad =>
@@ -82,8 +70,8 @@ function App() {
                          component={ad.component}/>
               )}
             </Switch>
-            <Footer  style={{ textAlign: 'center' }}>
-              SkiSkanner  ©2021 Created by Marcin Guzy
+            <Footer  style={{ textAlign: 'center', position:"fixed", bottom:0, width:"100%", padding:5}}>
+              UniversityScanner  ©2021 Created by Marcin Guzy
             </Footer>
           </Layout>
         </Layout>

@@ -6,7 +6,7 @@ import {SkiResort} from "../../openapi/models";
 import {SkiResortControllerApi} from "../../openapi";
 
 
-export const SkiSkannerListPage:React.FC<{}>=()=>{
+export const ListPage:React.FC<{}>=()=>{
     const [skiResorts, setSkiResorts] = React.useState<SkiResort[]>([]);
 
     const download = async () => {

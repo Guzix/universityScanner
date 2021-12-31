@@ -1,8 +1,9 @@
 import React from "react";
 import {Content, Header} from "antd/es/layout/layout";
-import {Table} from "antd";
+import {Col, Row, Table} from "antd";
+import Editor from "@monaco-editor/react";
 
-export const SkiSkannerMapPage:React.FC<{}>=()=>{
+export const MapPage:React.FC<{}>=()=>{
 
     return<>
         <Header>
@@ -10,7 +11,8 @@ export const SkiSkannerMapPage:React.FC<{}>=()=>{
             Nazwa ośrodka
         </Header>
         <Content>
-            Mapa
+            dupa
+
         </Content>
 
     </>

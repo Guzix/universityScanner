@@ -2,7 +2,7 @@ import React from "react";
 import {Content, Header} from "antd/es/layout/layout";
 
 
-export const SkiSkannerHomePage:React.FC<{}>=()=>{
+export const HomePage:React.FC<{}>=()=>{
 
     return<>
         <Header  style={{color:"white"}}>

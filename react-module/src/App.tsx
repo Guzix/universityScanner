@@ -4,12 +4,12 @@ import './App.css';
 import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import {Col, Layout, Menu, Row} from "antd";
 import {AppNavbar} from "./AppNavbar";
-import {SkiSkannerHomePage} from "./page/SkiSkannerHomePage";
-import {SkiSkannerListPage} from "./page/SkiSkannerListPage";
-import {SkiSkannerPage} from "./page/SkiSkannerPage";
-import {SkiSkannerTopPage} from "./page/SkiSkannerTopPage";
-import {SkiSkannerMapPage} from "./page/SkiSkannerMapPage";
-import {SkiSkannerComparisonsPage} from "./page/SkiSkannerComparisonsPage";
+import {SkiSkannerHomePage} from "./page/home/SkiSkannerHomePage";
+import {SkiSkannerListPage} from "./page/list/SkiSkannerListPage";
+import {SkiSkannerPage} from "./page/skiResort/SkiSkannerPage";
+import {SkiSkannerTopPage} from "./page/top/SkiSkannerTopPage";
+import {SkiSkannerMapPage} from "./page/map/SkiSkannerMapPage";
+import {SkiSkannerComparisonsPage} from "./page/comparison/SkiSkannerComparisonsPage";
 
 const {Header, Content, Footer, Sider} = Layout;
 

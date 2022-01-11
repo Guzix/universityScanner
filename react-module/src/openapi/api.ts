@@ -11,5 +11,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */export * from './apis/address-controller-api';
-export * from './apis/ski-resort-controller-api';
+export * from './apis/field-of-study-controller-api';
+export * from './apis/university-controller-api';
 

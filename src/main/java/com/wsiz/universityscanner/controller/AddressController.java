@@ -3,6 +3,7 @@ package com.wsiz.universityscanner.controller;
 
 
 import com.wsiz.universityscanner.model.Address;
+import com.wsiz.universityscanner.model.dto.AddressDto;
 import com.wsiz.universityscanner.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +19,8 @@ public class AddressController {
     private final AddressService addressService;
 
     @GetMapping("/get/{id}")
-    public Address getAddress(@PathVariable Long id){
+    public AddressDto getAddress(@PathVariable Long id){
 //        return addressService.getAddress(id);
-        return new Address();
+        return new AddressDto();
     }
 }

@@ -15,6 +15,13 @@ import java.util.List;
 @NoArgsConstructor
 public class University extends BaseEntity{
 
+    private String name;
+
+    private String summary;
+
+    @Column(columnDefinition = "TEXT")
+    private String scriptJS;
+
     @ManyToOne
     private Address address;
 
@@ -24,6 +31,5 @@ public class University extends BaseEntity{
     @Enumerated(EnumType.STRING)
     private  UniversityType universityType;
 
-    @ManyToOne
-    private ScriptsJS scriptsJS;
+
 }

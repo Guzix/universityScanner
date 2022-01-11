@@ -1,4 +1,8 @@
-import {SkiResortControllerApi} from "../openapi";
+import {
+    AddressControllerApi,
+    FieldOfStudyControllerApi,
+    UniversityControllerApi
+} from "../openapi";
 
 
 function autobind<T>(obj:T):T {
@@ -15,4 +19,6 @@ function autobind<T>(obj:T):T {
 
 const rootPath = `http://${window.location.host}`;
 
-export const skiResortApi = autobind(new SkiResortControllerApi({basePath:rootPath}));
+export const universityApi = autobind(new UniversityControllerApi({basePath:rootPath}));
+export const fieldOfStudyApi = autobind(new FieldOfStudyControllerApi({basePath:rootPath}));
+export const addressApi = autobind(new AddressControllerApi({basePath:rootPath}));

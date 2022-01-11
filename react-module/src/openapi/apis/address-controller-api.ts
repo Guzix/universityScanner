@@ -16,7 +16,7 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { Address } from '../models';
+import { AddressDto } from '../models';
 /**
  * AddressControllerApi - axios parameter creator
  * @export
@@ -77,7 +77,7 @@ export const AddressControllerApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getAddress(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Address>> {
+        async getAddress(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AddressDto>> {
             const localVarAxiosArgs = await AddressControllerApiAxiosParamCreator(configuration).getAddress(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -99,7 +99,7 @@ export const AddressControllerApiFactory = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getAddress(id: number, options?: any): AxiosPromise<Address> {
+        getAddress(id: number, options?: any): AxiosPromise<AddressDto> {
             return AddressControllerApiFp(configuration).getAddress(id, options).then((request) => request(axios, basePath));
         },
     };

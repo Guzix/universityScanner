@@ -1,5 +1,6 @@
 package com.wsiz.universityscanner.service;
 
+import com.wsiz.universityscanner.misc.ActionResourceStatus;
 import com.wsiz.universityscanner.model.Address;
 import com.wsiz.universityscanner.model.dto.AddressDto;
 import com.wsiz.universityscanner.repository.AddressRepository;
@@ -38,5 +39,17 @@ public class AddressService {
 
     public Address getById(Long id){
         return addressRepository.getById(id);
+    }
+
+    public ActionResourceStatus delete(Long id){
+        try {
+            Address address = addressRepository.getById(id);
+            address.setDeleted(true);
+            addressRepository.save(address);
+            return ActionResourceStatus.OK;
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return ActionResourceStatus.UNEXPECTED_ERROR;
     }
 }

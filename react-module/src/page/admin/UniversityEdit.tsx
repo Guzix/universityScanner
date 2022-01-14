@@ -1,9 +1,12 @@
 import React from "react";
 import Editor from "@monaco-editor/react";
-import {Button, Col, Divider, Form, Input, notification, Row, Select, Space, Spin, Table} from "antd";
+import {Button, Col, Divider, Form, Input, Modal, notification, Row, Select, Spin, Table} from "antd";
 import {
     ActionResourceUniversityDtoActionResourceStatusEnum,
     AddressDtoProvinceEnum,
+    FieldOfStudyDto,
+    FieldOfStudyDtoFieldOfStudyLevelEnum,
+    FieldOfStudyDtoFieldOfStudyTypeEnum,
     UniversityDto,
     UniversityDtoUniversityTypeEnum
 } from "../../openapi/models";
@@ -21,6 +24,8 @@ export const UniversityEdit:React.FC<{}>=()=> {
     const [isEditPage] = React.useState<boolean>(!isNaN(Number(id)));
     const [downloading, setDownloading] = React.useState<boolean>(false);
     const [university, setUniversity] = React.useState<UniversityDto>({});
+    const [listModalVisible, setListModalVisible] = React.useState<boolean>(false);
+
 
     const download = async (numberId:number) =>{
         if (numberId) {
@@ -80,6 +85,17 @@ export const UniversityEdit:React.FC<{}>=()=> {
         }
     }
 
+    const onDelete = async () => {
+        setDownloading(true)
+        const response = await universityApi.deleteUniversity(university.id)
+        if (response.status === 200  && response.data === "OK"){
+            history.push(PagePath.ADMIN_UNIVERSITY_LIST)
+            notification.success({message:"Poprawne usunięcie"})
+        } else {
+            notification.error({message: "Błąd połączenia"})
+        }
+    }
+
     React.useEffect(() => {
         if (isEditPage) {
             download(Number(id)).finally(() => setDownloading(false));
@@ -87,6 +103,11 @@ export const UniversityEdit:React.FC<{}>=()=> {
     }, []);
 
     return<Spin spinning={downloading}>
+        <UniversityEditFieldsOfStudiesList university={university}
+                                           modalVisible={listModalVisible}
+                                           setModalVisible={setListModalVisible}
+                                           setUniversity={setUniversity}
+        />
         <Header>
             <Row>
                 <Col span={20} >
@@ -100,95 +121,292 @@ export const UniversityEdit:React.FC<{}>=()=> {
             </Row>
         </Header>
         <Content>
-            <Form labelCol={{span:6}} wrapperCol={{span: 12}} form={form} initialValues={university}
-                  onFinish={onSubmit} scrollToFirstError
-            >
-                <Form.Item>
-                    <Button type={"primary"} htmlType={"submit"} >
-                        Zapisz
-                    </Button>
-                </Form.Item>
+            <Row>
+                <Col span={18} offset={3}>
+                    <Form labelCol={{span:6}}  form={form} initialValues={university}
+                          onFinish={onSubmit} scrollToFirstError
+                    >
+                        <Form.Item>
+                            <Row>
+                                <Col span={8} style={{textAlign:"center"}}>
+                                    <Button type={"primary"} htmlType={"submit"} >
+                                        Zapisz
+                                    </Button>
+                                </Col>
+                                <Col span={8} style={{textAlign:"center"}}>
+                                    <Button type={"primary"} danger hidden={!university.id}
+                                            onClick={() => onDelete().finally(() => setDownloading(false))}
+                                    >
+                                        Usuń
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Form.Item>
 
-                <Form.Item label={"Nazwa"} name={"name"}  required rules={[{required:true, message: "Prosze podać nazwę uczelni"}]} hasFeedback>
-                    <Input />
-                </Form.Item>
+                        <Form.Item label={"Nazwa"} name={"name"}  required rules={[{required:true, message: "Prosze podać nazwę uczelni"}]} hasFeedback>
+                            <Input />
+                        </Form.Item>
 
-                <Form.Item label={"Skrót"} name={"summary"}  required rules={[{required:true, message: "Prosze podać skrót uczelni"}]} hasFeedback>
-                    <Input />
-                </Form.Item>
+                        <Form.Item label={"Skrót"} name={"summary"}  required rules={[{required:true, message: "Prosze podać skrót uczelni"}]} hasFeedback>
+                            <Input />
+                        </Form.Item>
 
-                <Form.Item label={"Typ uczelni"} name={"universityType"} required rules={[{required:true, message: "Prosze wybrać typ uczelni"}]} hasFeedback>
-                    <Select value={university?.universityType} >
-                        {Object.values(UniversityDtoUniversityTypeEnum).map(typ =>
-                            <Select.Option value={typ} >
-                                {enumToPrettyString(typ)}
-                            </Select.Option>
-                        )}
-                    </Select>
-                </Form.Item>
+                        <Form.Item label={"Typ uczelni"} name={"universityType"} required rules={[{required:true, message: "Prosze wybrać typ uczelni"}]} hasFeedback>
+                            <Select value={university?.universityType} >
+                                {Object.values(UniversityDtoUniversityTypeEnum).map(typ =>
+                                    <Select.Option value={typ} >
+                                        {enumToPrettyString(typ)}
+                                    </Select.Option>
+                                )}
+                            </Select>
+                        </Form.Item>
 
-                <Form.Item label={"Miasto"} name={"city"} required rules={[{required:true, message: "Prosze podać miasto uczelni"}]} hasFeedback>
-                    <Input value={university?.address?.city} />
-                </Form.Item>
+                        <Form.Item label={"Miasto"} name={"city"} required rules={[{required:true, message: "Prosze podać miasto uczelni"}]} hasFeedback>
+                            <Input value={university?.address?.city} />
+                        </Form.Item>
 
-                <Form.Item label={"Ulica"} name={"street"} required rules={[{required:true, message: "Prosze podać ulice uczelni"}]} hasFeedback>
-                    <Input value={university?.address?.street}/>
-                </Form.Item>
+                        <Form.Item label={"Ulica"} name={"street"} required rules={[{required:true, message: "Prosze podać ulice uczelni"}]} hasFeedback>
+                            <Input value={university?.address?.street}/>
+                        </Form.Item>
 
-                <Form.Item label={"Kod poczyowy"} name={"postalCode"} required rules={[
-                    {required:true, message: "Prosze podać kod pocztowy uczelni"},
-                    () => ({
-                        validator(_, value) {
-                        if (!value || value.length === 6 && value[2] === "-") {
-                        return Promise.resolve();
-                    }
-                        return Promise.reject(new Error('Format jest nie poprawny'));
-                    },
-                    }),
-                ]} hasFeedback>
-                    <Input value={university?.address?.postalCode}/>
-                </Form.Item>
+                        <Form.Item label={"Kod poczyowy"} name={"postalCode"} required rules={[
+                            {required:true, message: "Prosze podać kod pocztowy uczelni"},
+                            () => ({
+                                validator(_, value) {
+                                    if (!value || value.length === 6 && value[2] === "-") {
+                                        return Promise.resolve();
+                                    }
+                                    return Promise.reject(new Error('Format jest nie poprawny'));
+                                },
+                            }),
+                        ]} hasFeedback>
+                            <Input value={university?.address?.postalCode}/>
+                        </Form.Item>
 
-                <Form.Item label={"Numer budynku"} name={"buildingNumber"} required rules={[{required:true, message: "Prosze podać numer budynku uczelni"}]} hasFeedback>
-                    <Input value={university?.address?.buildingNumber}/>
-                </Form.Item>
+                        <Form.Item label={"Numer budynku"} name={"buildingNumber"} required rules={[{required:true, message: "Prosze podać numer budynku uczelni"}]} hasFeedback>
+                            <Input value={university?.address?.buildingNumber}/>
+                        </Form.Item>
 
-                <Form.Item label={"Województwo"} name={"province"} required rules={[{required:true, message: "Prosze wybrać województwo uczelni"}]} hasFeedback>
-                    <Select value={university?.address?.province} >
-                        {Object.values( AddressDtoProvinceEnum).map(typ =>
-                            <Select.Option value={typ} >
-                                {enumToPrettyString(typ)}
-                            </Select.Option>
-                        )}
-                    </Select>
-                </Form.Item>
+                        <Form.Item label={"Województwo"} name={"province"} required rules={[{required:true, message: "Prosze wybrać województwo uczelni"}]} hasFeedback>
+                            <Select value={university?.address?.province} >
+                                {Object.values( AddressDtoProvinceEnum).map(typ =>
+                                    <Select.Option value={typ} >
+                                        {enumToPrettyString(typ)}
+                                    </Select.Option>
+                                )}
+                            </Select>
+                        </Form.Item>
 
-            </Form>
-            <div hidden={!isEditPage}>
-                <Divider orientation={"left"}>Skrypt JS</Divider>
-                {/*<Table*/}
-                {/*    dataSource={university?.fieldOfStudies}*/}
-                {/*    columns={[*/}
-                {/*        {title: "id", dataIndex: "id"},*/}
-                {/*        {title: "Nazwa", dataIndex: "name"}*/}
-                {/*    ]}*/}
-                {/*/>            */}
-                <Row>
-                    <Col span={18} offset={3}>
-                        <Editor
-                            value={university.scriptJS}
-                            height={550}
-                            defaultLanguage={"typescript"}
-                            onChange={(e) => {
-                                setUniversity({...university, scriptJS:e})
-                            }}
-                        />
-                    </Col>
-                </Row>
+                    </Form>
+                </Col>
+            </Row>
+                    <div hidden={!isEditPage}>
+                        <Divider orientation={"left"}>Lista kierunków</Divider>
+                        <Button type={"primary"} onClick={() => setListModalVisible(true)}>
+                            Lista kierunków
+                        </Button>
+                        <Divider orientation={"left"}>Skrypt JS</Divider>
+                        {/*<Table*/}
+                        {/*    dataSource={university?.fieldOfStudies}*/}
+                        {/*    columns={[*/}
+                        {/*        {title: "id", dataIndex: "id"},*/}
+                        {/*        {title: "Nazwa", dataIndex: "name"}*/}
+                        {/*    ]}*/}
+                        {/*/>            */}
+                        <Row>
+                            <Col span={18} offset={3}>
+                                <Editor
+                                    value={university.scriptJS}
+                                    height={550}
+                                    defaultLanguage={"javascript"}
+                                    onChange={(e) => {
+                                        setUniversity({...university, scriptJS:e})
+                                    }}
+                                />
+                            </Col>
+                        </Row>
 
-            </div>
+                    </div>
+
+
 
         </Content>
 
     </Spin>
+}
+
+
+export  const UniversityEditFieldsOfStudiesList:React.FC<{
+    university: UniversityDto
+    modalVisible: boolean
+    setModalVisible: (value: boolean) => void
+    setUniversity: (value: UniversityDto) => void
+}>=({university, modalVisible, setModalVisible, setUniversity})=> {
+    const [editModalVisible, setEditModalVisible] = React.useState<boolean>(false);
+    const [chosenField, setChosenField] = React.useState<FieldOfStudyDto | undefined>(undefined)
+    return <>
+        <UniversityEditFieldsOfStudiesEdit fieldOfStudies={chosenField}
+                                           modalVisible={editModalVisible}
+                                           setModalVisible={setEditModalVisible}
+                                           universityId={university.id}
+                                           setChosenField={setChosenField}
+                                           setUniversity={setUniversity}
+        />
+        <Modal
+            visible={modalVisible}
+            onCancel={() => setModalVisible(false)}
+            width={"80vw"}
+            footer={[]}
+        >
+            <Divider orientation={"left"}>Lista kierunków</Divider>
+            <Button type={"primary"} onClick={() => setEditModalVisible(true)} style={{marginBottom:15}}>
+                Dodaj ręcznie
+            </Button>
+            <Table
+                dataSource={university.fieldOfStudies || []}
+                onRow={(row) => {
+                    return {
+                        onClick: () => {
+                            setChosenField(row)
+                            setEditModalVisible(true)
+                        }
+                    }
+
+                }}
+                columns={[
+                    {title:"id", dataIndex:"id"},
+                    {title:"Nazwa", dataIndex: "name"},
+                    {title:"Liczba semestrów", dataIndex: "numberOfSemesters"},
+                    {title: "Typ kierunku", dataIndex: "fieldOfStudyType", render: function get(fieldOfStudyType) {return enumToPrettyString(fieldOfStudyType)}},
+                    {title: "Poziom kierunku", dataIndex: "fieldOfStudyLevel", render: function get(fieldOfStudyLevel) {return enumToPrettyString(fieldOfStudyLevel)}}
+                ]}
+            />
+
+        </Modal>
+    </>
+}
+
+export  const UniversityEditFieldsOfStudiesEdit:React.FC<{
+    fieldOfStudies: FieldOfStudyDto | undefined
+    universityId: number
+    modalVisible: boolean
+    setModalVisible: (value: boolean) => void
+    setChosenField: (value: FieldOfStudyDto | undefined) => void
+    setUniversity: (value: UniversityDto) => void
+}>=({fieldOfStudies, universityId, modalVisible, setModalVisible, setChosenField, setUniversity})=> {
+    const [form] = Form.useForm();
+    const [downloading, setDownloading] = React.useState<boolean>(false);
+
+
+    const saveField = async (values: any) => {
+        setDownloading(true)
+        const response = await universityApi.addOrSaveFieldOfStudy({
+            ...fieldOfStudies,
+            name:values.name,
+            numberOfSemesters: values.numberOfSemesters,
+            fieldOfStudyType: values.fieldOfStudyType,
+            fieldOfStudyLevel: values.fieldOfStudyLevel
+        }, universityId).finally(() => setDownloading(false))
+        if (response.status === 200){
+            if (response.data.actionResourceStatus === ActionResourceUniversityDtoActionResourceStatusEnum.OK){
+                notification.success({message:"Zapisano kierunek"})
+                onClose()
+                setUniversity(response.data.resource)
+            } else {
+                notification.error({message: "Błąd zapisu"})
+            }
+        } else {
+            notification.error({message: "Błąd zapisu"})
+        }
+    }
+
+    const deleteField = async () => {
+        setDownloading(true)
+        const response = await universityApi.deleteFieldOfStudy(universityId, fieldOfStudies?.id)
+        if (response.status == 200 && response.data.actionResourceStatus === ActionResourceUniversityDtoActionResourceStatusEnum.OK) {
+            onClose()
+            setUniversity(response.data.resource)
+        }
+    }
+
+    const onClose = () => {
+        setModalVisible(false)
+        setChosenField(undefined)
+        form.setFieldsValue({
+            name:undefined,
+            numberOfSemesters:undefined,
+            fieldOfStudyType: undefined,
+            fieldOfStudyLevel:undefined
+        })
+    }
+
+    React.useEffect(() => {
+        form.setFieldsValue({
+            name:fieldOfStudies?.name,
+            numberOfSemesters:fieldOfStudies?.numberOfSemesters,
+            fieldOfStudyType: fieldOfStudies?.fieldOfStudyType,
+            fieldOfStudyLevel:fieldOfStudies?.fieldOfStudyLevel
+        })
+    }, [fieldOfStudies])
+
+    return <>
+        <Modal
+            visible={modalVisible}
+            onCancel={onClose}
+            width={"70vw"}
+            footer={[]}
+        >
+            <Divider orientation={"left"}>Edycja kierunku</Divider>
+            <Form onFinish={saveField} form={form}>
+                <Form.Item  >
+                    <Row>
+                        <Col span={8}>
+                            <Button type={"primary"} htmlType={"submit"} loading={downloading}>
+                                Zapisz
+                            </Button>
+                        </Col>
+                        <Col span={8} style={{textAlign: "center"}}>
+                            <Button type={"primary"} danger hidden={!fieldOfStudies?.id}  loading={downloading}
+                                    onClick={() => deleteField().finally(() => setDownloading(false))}
+                            >
+                                Usuń
+                            </Button>
+                        </Col>
+                        <Col span={8} style={{textAlign: "right"}}>
+                            <Button onClick={onClose} loading={downloading}>
+                                Anuluj
+                            </Button>
+                        </Col>
+                    </Row>
+                </Form.Item>
+                <Form.Item label={"Nazwa kierunku"} name={"name"} required rules={[{required:true, message: "Prosze podać nazwe kierunku"}]} hasFeedback>
+                    <Input value={fieldOfStudies?.name}/>
+                </Form.Item>
+
+                <Form.Item label={"Liczba semestrów"} name={"numberOfSemesters"} >
+                    <Input value={fieldOfStudies?.numberOfSemesters} type={"number"}/>
+                </Form.Item>
+
+                <Form.Item label={"Poziom kierunku"} name={"fieldOfStudyLevel"} required rules={[{required:true, message: "Prosze wybrać poziom kierunku"}]} hasFeedback>
+                    <Select value={fieldOfStudies?.fieldOfStudyLevel} >
+                        {Object.values( FieldOfStudyDtoFieldOfStudyLevelEnum).map(typ =>
+                            <Select.Option value={typ} >
+                                {enumToPrettyString(typ)}
+                            </Select.Option>
+                        )}
+                    </Select>
+                </Form.Item>
+
+                <Form.Item label={"Rodzaj kierunku"} name={"fieldOfStudyType"} required rules={[{required:true, message: "Prosze wybrać rodzaj kierunku"}]} hasFeedback>
+                    <Select value={fieldOfStudies?.fieldOfStudyType} >
+                        {Object.values( FieldOfStudyDtoFieldOfStudyTypeEnum).map(typ =>
+                            <Select.Option value={typ} >
+                                {enumToPrettyString(typ)}
+                            </Select.Option>
+                        )}
+                    </Select>
+                </Form.Item>
+            </Form>
+        </Modal>
+    </>
 }

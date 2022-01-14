@@ -12,5 +12,6 @@
  * Do not edit the class manually.
  */export * from './apis/address-controller-api';
 export * from './apis/field-of-study-controller-api';
+export * from './apis/script-js-controller-api';
 export * from './apis/university-controller-api';
 

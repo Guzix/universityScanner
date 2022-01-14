@@ -1,7 +1,13 @@
 @import '~antd/dist/antd.css';
+@import url('https://fonts.googleapis.com/css?family=Patrick+Hand+SC|Roboto&display=swap');
+
+/*body {*/
+/*    font-family: Roboto Slab;*/
+/*}*/
 
 .App {
     text-align: center;
+
 }
 
 .App-logo {
@@ -53,3 +59,20 @@
         transform: rotate(360deg);
     }
 }
+
+.univList .ant-card-head{
+    background-color: #7694e0;
+    border-radius: 25px 25px 0 0;
+    border: 2px solid #f0f0f0;
+}
+
+.univList {
+    background-color: #a7b6dc;
+    text-align: center;
+    margin: 25px;
+    height:200px;
+    border: 2px solid #f0f0f0;
+    border-radius: 25px;
+}
+
+

@@ -5,6 +5,7 @@ import {ActionResourceListUniversityDtoActionResourceStatusEnum, AddressDto, Uni
 import {useHistory} from "react-router-dom";
 import {AppPage, PagePath} from "../../App";
 import {universityApi} from "../../api/export";
+import {enumToPrettyString} from "../misc";
 
 export const UniversityList:React.FC<{}>=()=>{
     const history = useHistory();
@@ -58,7 +59,7 @@ export const UniversityList:React.FC<{}>=()=>{
                                 {dataIndex: "id", title: "id"},
                                 {dataIndex: "summary", title: "Skrót"},
                                 {dataIndex: "name", title: "Nazwa"},
-                                {dataIndex: "universityType", title: "Typ"},
+                                {dataIndex: "universityType", title: "Typ", render: function get(universityType) {return enumToPrettyString(universityType)}},
                                 {dataIndex: "address", title: "Miasto", render: function get(address: AddressDto) { return address.city}},
 
                             ]}

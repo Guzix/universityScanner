@@ -2,10 +2,12 @@ package com.wsiz.universityscanner.controller;
 
 import com.wsiz.universityscanner.misc.ActionResource;
 import com.wsiz.universityscanner.misc.ActionResourceStatus;
+import com.wsiz.universityscanner.model.dto.FieldOfStudyDto;
 import com.wsiz.universityscanner.model.dto.UniversityDto;
 import com.wsiz.universityscanner.service.UniversityService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -27,7 +29,27 @@ public class UniversityController {
     }
 
     @GetMapping("/get-list")
-    public ActionResource<List<UniversityDto>> getListDto(){
-        return universityService.getListDto();
+    public ActionResource<Page<UniversityDto>> getListDto(@RequestParam Integer pageNumber, @RequestParam Integer pasgeSize){
+        return universityService.getListDto(pageNumber, pasgeSize);
+    }
+
+    @PostMapping("/add-or-save-field-of-studey")
+    public ActionResource<UniversityDto> addOrSaveFieldOfStudy(@RequestParam Long id, @RequestBody FieldOfStudyDto fieldOfStudyDto){
+        return universityService.addOrSaveFieldOfStudy(id,fieldOfStudyDto);
+    }
+
+    @PostMapping("/delete-field-of-study")
+    public ActionResource<UniversityDto> deleteFieldOfStudy(@RequestParam Long universityId, @RequestParam Long fieldOfStudyId){
+        return universityService.deleteFieldOfStudy(universityId, fieldOfStudyId);
+    }
+
+    @PostMapping("/delete-university")
+    public ActionResourceStatus deleteUniversity(@RequestParam Long id){
+        return universityService.deleteUniversity(id);
+    }
+
+    @GetMapping("/get-random-university")
+    public ActionResource<List<UniversityDto>> getRandomUniversity(@RequestParam Integer amount) {
+        return universityService.getRandomUniversity(amount);
     }
 }

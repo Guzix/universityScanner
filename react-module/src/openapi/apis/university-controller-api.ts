@@ -17,7 +17,9 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { ActionResourceListUniversityDto } from '../models';
+import { ActionResourcePageUniversityDto } from '../models';
 import { ActionResourceUniversityDto } from '../models';
+import { FieldOfStudyDto } from '../models';
 import { UniversityDto } from '../models';
 /**
  * UniversityControllerApi - axios parameter creator
@@ -27,10 +29,164 @@ export const UniversityControllerApiAxiosParamCreator = function (configuration?
     return {
         /**
          * 
+         * @param {FieldOfStudyDto} body 
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getListDto: async (options: any = {}): Promise<RequestArgs> => {
+        addOrSaveFieldOfStudy: async (body: FieldOfStudyDto, id: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling addOrSaveFieldOfStudy.');
+            }
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling addOrSaveFieldOfStudy.');
+            }
+            const localVarPath = `/api/university/add-or-save-field-of-studey`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} universityId 
+         * @param {number} fieldOfStudyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFieldOfStudy: async (universityId: number, fieldOfStudyId: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'universityId' is not null or undefined
+            if (universityId === null || universityId === undefined) {
+                throw new RequiredError('universityId','Required parameter universityId was null or undefined when calling deleteFieldOfStudy.');
+            }
+            // verify required parameter 'fieldOfStudyId' is not null or undefined
+            if (fieldOfStudyId === null || fieldOfStudyId === undefined) {
+                throw new RequiredError('fieldOfStudyId','Required parameter fieldOfStudyId was null or undefined when calling deleteFieldOfStudy.');
+            }
+            const localVarPath = `/api/university/delete-field-of-study`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (universityId !== undefined) {
+                localVarQueryParameter['universityId'] = universityId;
+            }
+
+            if (fieldOfStudyId !== undefined) {
+                localVarQueryParameter['fieldOfStudyId'] = fieldOfStudyId;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUniversity: async (id: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling deleteUniversity.');
+            }
+            const localVarPath = `/api/university/delete-university`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (id !== undefined) {
+                localVarQueryParameter['id'] = id;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} pageNumber 
+         * @param {number} pasgeSize 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getListDto: async (pageNumber: number, pasgeSize: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'pageNumber' is not null or undefined
+            if (pageNumber === null || pageNumber === undefined) {
+                throw new RequiredError('pageNumber','Required parameter pageNumber was null or undefined when calling getListDto.');
+            }
+            // verify required parameter 'pasgeSize' is not null or undefined
+            if (pasgeSize === null || pasgeSize === undefined) {
+                throw new RequiredError('pasgeSize','Required parameter pasgeSize was null or undefined when calling getListDto.');
+            }
             const localVarPath = `/api/university/get-list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -41,6 +197,56 @@ export const UniversityControllerApiAxiosParamCreator = function (configuration?
             const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            if (pageNumber !== undefined) {
+                localVarQueryParameter['pageNumber'] = pageNumber;
+            }
+
+            if (pasgeSize !== undefined) {
+                localVarQueryParameter['pasgeSize'] = pasgeSize;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.query) {
+                query.set(key, options.query[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {number} amount 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRandomUniversity: async (amount: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'amount' is not null or undefined
+            if (amount === null || amount === undefined) {
+                throw new RequiredError('amount','Required parameter amount was null or undefined when calling getRandomUniversity.');
+            }
+            const localVarPath = `/api/university/get-random-university`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            if (amount !== undefined) {
+                localVarQueryParameter['amount'] = amount;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -155,11 +361,67 @@ export const UniversityControllerApiFp = function(configuration?: Configuration)
     return {
         /**
          * 
+         * @param {FieldOfStudyDto} body 
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getListDto(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActionResourceListUniversityDto>> {
-            const localVarAxiosArgs = await UniversityControllerApiAxiosParamCreator(configuration).getListDto(options);
+        async addOrSaveFieldOfStudy(body: FieldOfStudyDto, id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActionResourceUniversityDto>> {
+            const localVarAxiosArgs = await UniversityControllerApiAxiosParamCreator(configuration).addOrSaveFieldOfStudy(body, id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {number} universityId 
+         * @param {number} fieldOfStudyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteFieldOfStudy(universityId: number, fieldOfStudyId: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActionResourceUniversityDto>> {
+            const localVarAxiosArgs = await UniversityControllerApiAxiosParamCreator(configuration).deleteFieldOfStudy(universityId, fieldOfStudyId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteUniversity(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await UniversityControllerApiAxiosParamCreator(configuration).deleteUniversity(id, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {number} pageNumber 
+         * @param {number} pasgeSize 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getListDto(pageNumber: number, pasgeSize: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActionResourcePageUniversityDto>> {
+            const localVarAxiosArgs = await UniversityControllerApiAxiosParamCreator(configuration).getListDto(pageNumber, pasgeSize, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @param {number} amount 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getRandomUniversity(amount: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActionResourceListUniversityDto>> {
+            const localVarAxiosArgs = await UniversityControllerApiAxiosParamCreator(configuration).getRandomUniversity(amount, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -203,11 +465,51 @@ export const UniversityControllerApiFactory = function (configuration?: Configur
     return {
         /**
          * 
+         * @param {FieldOfStudyDto} body 
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getListDto(options?: any): AxiosPromise<ActionResourceListUniversityDto> {
-            return UniversityControllerApiFp(configuration).getListDto(options).then((request) => request(axios, basePath));
+        addOrSaveFieldOfStudy(body: FieldOfStudyDto, id: number, options?: any): AxiosPromise<ActionResourceUniversityDto> {
+            return UniversityControllerApiFp(configuration).addOrSaveFieldOfStudy(body, id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} universityId 
+         * @param {number} fieldOfStudyId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteFieldOfStudy(universityId: number, fieldOfStudyId: number, options?: any): AxiosPromise<ActionResourceUniversityDto> {
+            return UniversityControllerApiFp(configuration).deleteFieldOfStudy(universityId, fieldOfStudyId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteUniversity(id: number, options?: any): AxiosPromise<string> {
+            return UniversityControllerApiFp(configuration).deleteUniversity(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} pageNumber 
+         * @param {number} pasgeSize 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getListDto(pageNumber: number, pasgeSize: number, options?: any): AxiosPromise<ActionResourcePageUniversityDto> {
+            return UniversityControllerApiFp(configuration).getListDto(pageNumber, pasgeSize, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {number} amount 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getRandomUniversity(amount: number, options?: any): AxiosPromise<ActionResourceListUniversityDto> {
+            return UniversityControllerApiFp(configuration).getRandomUniversity(amount, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -240,12 +542,56 @@ export const UniversityControllerApiFactory = function (configuration?: Configur
 export class UniversityControllerApi extends BaseAPI {
     /**
      * 
+     * @param {FieldOfStudyDto} body 
+     * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UniversityControllerApi
      */
-    public getListDto(options?: any) {
-        return UniversityControllerApiFp(this.configuration).getListDto(options).then((request) => request(this.axios, this.basePath));
+    public addOrSaveFieldOfStudy(body: FieldOfStudyDto, id: number, options?: any) {
+        return UniversityControllerApiFp(this.configuration).addOrSaveFieldOfStudy(body, id, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {number} universityId 
+     * @param {number} fieldOfStudyId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UniversityControllerApi
+     */
+    public deleteFieldOfStudy(universityId: number, fieldOfStudyId: number, options?: any) {
+        return UniversityControllerApiFp(this.configuration).deleteFieldOfStudy(universityId, fieldOfStudyId, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {number} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UniversityControllerApi
+     */
+    public deleteUniversity(id: number, options?: any) {
+        return UniversityControllerApiFp(this.configuration).deleteUniversity(id, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {number} pageNumber 
+     * @param {number} pasgeSize 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UniversityControllerApi
+     */
+    public getListDto(pageNumber: number, pasgeSize: number, options?: any) {
+        return UniversityControllerApiFp(this.configuration).getListDto(pageNumber, pasgeSize, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @param {number} amount 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UniversityControllerApi
+     */
+    public getRandomUniversity(amount: number, options?: any) {
+        return UniversityControllerApiFp(this.configuration).getRandomUniversity(amount, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

@@ -9,6 +9,7 @@ import {HomePage} from "./page/home/HomePage";
 import {UniversityPage} from "./page/university/UniversityPage";
 import {UniversityEdit} from "./page/admin/UniversityEdit";
 import {UniversityList} from "./page/admin/UniversityList";
+import {Fas} from "./misc/misc";
 
 const {Header, Content, Footer, Sider} = Layout;
 
@@ -61,7 +62,7 @@ function App() {
       <Router>
         <Layout>
           <div>
-            <AppNavbar/>
+             <AppNavbar/>
           </div>
           <Layout className="site-layout">
             <Switch>

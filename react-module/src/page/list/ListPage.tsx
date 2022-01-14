@@ -1,10 +1,11 @@
 import React from "react";
-import {Card, Col, notification, Row} from "antd";
+import {Card, Col, notification, Row, Spin} from "antd";
 import {Content, Header} from "antd/es/layout/layout";
 import {ActionResourcePageUniversityDtoActionResourceStatusEnum, UniversityDto} from "../../openapi/models";
 import {PagePath} from "../../App";
 import {universityApi} from "../../api/export";
 import {useHistory} from "react-router-dom";
+import { Fas } from "./../../misc/misc";
 
 
 export const ListPage:React.FC<{}>=()=>{
@@ -14,14 +15,14 @@ export const ListPage:React.FC<{}>=()=>{
     const [pageSize, setPageSize] = React.useState<number>(9);
     const [totalPages, setTotalPages] = React.useState<number>(0);
     const [totalElements, setTotalElements] = React.useState<number>(0);
+    const [downloading, setDownloading] = React.useState<boolean>(false);
+
     const downloadList = async () => {
-
-
+        setDownloading(true)
         const response = await universityApi.getListDto(pageNumber,pageSize)
         if (response.status === 200){
             if (response.data.actionResourceStatus === ActionResourcePageUniversityDtoActionResourceStatusEnum.OK){
                 const result = response.data.resource
-                console.log(response.data.resource)
                 setUniversityList(result.content)
                 setPageNumber(result.pageable.pageNumber)
                 setPageSize(result.pageable.pageSize)
@@ -35,12 +36,22 @@ export const ListPage:React.FC<{}>=()=>{
         }
     }
 
+    const changePageNumber = (page:number) => {
+        if (pageNumber === 0 && page === -1){
+            setPageNumber(totalPages-1)
+        } else if (pageNumber === totalPages-1 && page === 1){
+            setPageNumber(0)
+        } else {
+            setPageNumber(pageNumber+page)
+        }
+    }
+
 
     React.useEffect(()=>{
-        downloadList()
-    },[])
+        downloadList().finally(() => setDownloading(false))
+    },[pageNumber])
 
-    return<>
+    return<Spin spinning={downloading}>
         <Header style={{color:"white", textAlign:"center"}}>
             <h2 style={{color:"white"}}>Lista uczelni</h2>
         </Header>
@@ -48,26 +59,13 @@ export const ListPage:React.FC<{}>=()=>{
             backgroundImage: `url("https://www.imperial.ac.uk/ImageCropToolT4/imageTool/uploaded-images/HQ_Lecture_Theatre--tojpeg_1417530678776_x2--tojpeg_1473850590128_x2.jpg")`,
             backgroundSize: "cover"
         }}>
-            {/*<Table*/}
-            {/*    dataSource={universityList}*/}
-            {/*    bordered*/}
-            {/*    onRow={(university: UniversityDto) => {*/}
-            {/*        return {*/}
-            {/*            onClick: () => history.push(`${PagePath.UNIVERSITY}/${university.id}`),*/}
-            {/*            onAuxClick: () => window.open(`${AppPage.UNIVERSITY}/${university.id}`)*/}
-            {/*        };*/}
-            {/*    }}*/}
-            {/*    columns={[*/}
-            {/*        {dataIndex: "id", title: "id"},*/}
-            {/*        {dataIndex: "summary", title: "Skrót"},*/}
-            {/*        {dataIndex: "name", title: "Nazwa"},*/}
-            {/*        {dataIndex: "universityType", title: "Typ", render: function get(universityType) {return enumToPrettyString(universityType)}},*/}
-            {/*        {dataIndex: "address", title: "Miasto", render: function get(address: AddressDto) { return address.city}},*/}
-
-            {/*    ]}*/}
-            {/*/>*/}
             <Row>
-                <Col span={18} offset={3}>
+                <Col span={2} className={"pageArrows"} onClick={() => changePageNumber(-1)} >
+
+                        <Fas icon={"arrow-left"} size={"5x"} className={"pageArrow"}/>
+
+                </Col>
+                <Col span={18} offset={1}>
                     <Row>
                         {universityList.map((univ:UniversityDto) => <Col span={8} >
                                 <Card title={<>{univ.summary}</>}
@@ -84,7 +82,16 @@ export const ListPage:React.FC<{}>=()=>{
                         )}
                     </Row>
                 </Col>
+                <Col span={2} offset={1}  className={"pageArrows"}  onClick={() => changePageNumber(1)} >
+                        <Fas icon={"arrow-right"} size={"5x"}  className={"pageArrow"}/>
+                </Col>
+            </Row>
+            <Row>
+                <Col span={6} offset={9} style={{textAlign:"center", color:"#fff"}} >
+                    <div>Strona {pageNumber+1} z {totalPages}</div>
+                    <div>Elemetów {pageSize} z {totalElements}</div>
+                </Col>
             </Row>
         </Content>
-    </>
+    </Spin>
 }

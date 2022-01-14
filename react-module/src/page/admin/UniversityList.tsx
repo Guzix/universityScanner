@@ -1,7 +1,12 @@
 import React from "react";
 import {Content, Header} from "antd/es/layout/layout";
 import {Button, Col, notification, Row, Spin, Table} from "antd";
-import {ActionResourceListUniversityDtoActionResourceStatusEnum, AddressDto, UniversityDto} from "../../openapi/models";
+import {
+    ActionResourceListUniversityDtoActionResourceStatusEnum,
+    ActionResourcePageUniversityDtoActionResourceStatusEnum,
+    AddressDto,
+    UniversityDto
+} from "../../openapi/models";
 import {useHistory} from "react-router-dom";
 import {AppPage, PagePath} from "../../App";
 import {universityApi} from "../../api/export";
@@ -11,14 +16,23 @@ export const UniversityList:React.FC<{}>=()=>{
     const history = useHistory();
     const [downloading, setDownloading] = React.useState<boolean>(false);
     const [universityList, setUniversityList] = React.useState<UniversityDto[]>([])
+    const [pageNumber, setPageNumber] = React.useState<number>(0);
+    const [pageSize, setPageSize] = React.useState<number>(10);
+    const [totalPages, setTotalPages] = React.useState<number>(0);
+    const [totalElements, setTotalElements] = React.useState<number>(0);
+
 
     const downloadList = async () => {
         setDownloading(true)
-        const response = await universityApi.getListDto()
+        const response = await universityApi.getListDto(pageNumber, pageSize)
         if (response.status === 200){
-            if (response.data.actionResourceStatus === ActionResourceListUniversityDtoActionResourceStatusEnum.OK){
-
-                setUniversityList(response.data.resource)
+            if (response.data.actionResourceStatus === ActionResourcePageUniversityDtoActionResourceStatusEnum.OK){
+                const result = response.data.resource
+                setUniversityList(result.content)
+                setPageNumber(result.pageable.pageNumber)
+                setPageSize(result.pageable.pageSize)
+                setTotalPages(result.totalPages)
+                setTotalElements(result.totalElements)
             } else {
                 notification.error({message: "Błąd pobierania"})
             }
@@ -49,6 +63,10 @@ export const UniversityList:React.FC<{}>=()=>{
                         <Table
                             dataSource={universityList}
                             bordered
+                            pagination={{
+                                pageSize:pageSize,
+
+                            }}
                             onRow={(university: UniversityDto) => {
                                 return {
                                     onClick: () => history.push(`${PagePath.ADMIN_UNIVERSITY_EDIT}/${university.id}`),

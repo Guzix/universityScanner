@@ -53,7 +53,7 @@ export const UniversityPage:React.FC<{}>=()=>{
         </Header>
         <Content>
             <Row>
-                <Col span={8}>
+                <Col span={6}>
                    <Card title={"Infornacje o uczelni"} >
                         <Descriptions>
                             <Descriptions.Item label={"Skrót"} span={3}>{university?.summary}</Descriptions.Item>
@@ -63,13 +63,13 @@ export const UniversityPage:React.FC<{}>=()=>{
                         </Descriptions>
                    </Card>
                 </Col>
-                <Col span={15} offset={1}>
+                <Col span={17} offset={1}>
                     <Card title={"Kierunki studiów"}>
                         <Row>
                             {!university.fieldOfStudies ? <Col>
                                 Brak kierunków
                                 </Col> :
-                                university?.fieldOfStudies?.map((fos: FieldOfStudyDto) => <Col span={8} offset={1}>
+                                university?.fieldOfStudies?.map((fos: FieldOfStudyDto) => <Col span={7} offset={1}>
 
                                 <Card title={<>{fos.name}</>}  className={"univList"}>
                                     <Descriptions>

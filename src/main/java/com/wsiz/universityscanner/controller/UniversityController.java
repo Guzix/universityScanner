@@ -29,8 +29,8 @@ public class UniversityController {
     }
 
     @GetMapping("/get-list")
-    public ActionResource<Page<UniversityDto>> getListDto(@RequestParam Integer pageNumber, @RequestParam Integer pasgeSize){
-        return universityService.getListDto(pageNumber, pasgeSize);
+    public ActionResource<Page<UniversityDto>> getListDto(@RequestParam Integer pageNumber, @RequestParam Integer pageSize){
+        return universityService.getListDto(pageNumber, pageSize);
     }
 
     @PostMapping("/add-or-save-field-of-studey")

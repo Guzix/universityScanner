@@ -174,18 +174,18 @@ export const UniversityControllerApiAxiosParamCreator = function (configuration?
         /**
          * 
          * @param {number} pageNumber 
-         * @param {number} pasgeSize 
+         * @param {number} pageSize 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getListDto: async (pageNumber: number, pasgeSize: number, options: any = {}): Promise<RequestArgs> => {
+        getListDto: async (pageNumber: number, pageSize: number, options: any = {}): Promise<RequestArgs> => {
             // verify required parameter 'pageNumber' is not null or undefined
             if (pageNumber === null || pageNumber === undefined) {
                 throw new RequiredError('pageNumber','Required parameter pageNumber was null or undefined when calling getListDto.');
             }
-            // verify required parameter 'pasgeSize' is not null or undefined
-            if (pasgeSize === null || pasgeSize === undefined) {
-                throw new RequiredError('pasgeSize','Required parameter pasgeSize was null or undefined when calling getListDto.');
+            // verify required parameter 'pageSize' is not null or undefined
+            if (pageSize === null || pageSize === undefined) {
+                throw new RequiredError('pageSize','Required parameter pageSize was null or undefined when calling getListDto.');
             }
             const localVarPath = `/api/university/get-list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -202,8 +202,8 @@ export const UniversityControllerApiAxiosParamCreator = function (configuration?
                 localVarQueryParameter['pageNumber'] = pageNumber;
             }
 
-            if (pasgeSize !== undefined) {
-                localVarQueryParameter['pasgeSize'] = pasgeSize;
+            if (pageSize !== undefined) {
+                localVarQueryParameter['pageSize'] = pageSize;
             }
 
             const query = new URLSearchParams(localVarUrlObj.search);
@@ -403,12 +403,12 @@ export const UniversityControllerApiFp = function(configuration?: Configuration)
         /**
          * 
          * @param {number} pageNumber 
-         * @param {number} pasgeSize 
+         * @param {number} pageSize 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getListDto(pageNumber: number, pasgeSize: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActionResourcePageUniversityDto>> {
-            const localVarAxiosArgs = await UniversityControllerApiAxiosParamCreator(configuration).getListDto(pageNumber, pasgeSize, options);
+        async getListDto(pageNumber: number, pageSize: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ActionResourcePageUniversityDto>> {
+            const localVarAxiosArgs = await UniversityControllerApiAxiosParamCreator(configuration).getListDto(pageNumber, pageSize, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -495,12 +495,12 @@ export const UniversityControllerApiFactory = function (configuration?: Configur
         /**
          * 
          * @param {number} pageNumber 
-         * @param {number} pasgeSize 
+         * @param {number} pageSize 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getListDto(pageNumber: number, pasgeSize: number, options?: any): AxiosPromise<ActionResourcePageUniversityDto> {
-            return UniversityControllerApiFp(configuration).getListDto(pageNumber, pasgeSize, options).then((request) => request(axios, basePath));
+        getListDto(pageNumber: number, pageSize: number, options?: any): AxiosPromise<ActionResourcePageUniversityDto> {
+            return UniversityControllerApiFp(configuration).getListDto(pageNumber, pageSize, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -575,13 +575,13 @@ export class UniversityControllerApi extends BaseAPI {
     /**
      * 
      * @param {number} pageNumber 
-     * @param {number} pasgeSize 
+     * @param {number} pageSize 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof UniversityControllerApi
      */
-    public getListDto(pageNumber: number, pasgeSize: number, options?: any) {
-        return UniversityControllerApiFp(this.configuration).getListDto(pageNumber, pasgeSize, options).then((request) => request(this.axios, this.basePath));
+    public getListDto(pageNumber: number, pageSize: number, options?: any) {
+        return UniversityControllerApiFp(this.configuration).getListDto(pageNumber, pageSize, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

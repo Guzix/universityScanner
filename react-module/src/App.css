@@ -43,6 +43,7 @@
     padding-top: 15px;
     padding-left: 15px;
     padding-right: 15px;
+    padding-bottom: 30px;
     min-height: 80vh;
     height: auto;
 }
@@ -75,4 +76,24 @@
     border-radius: 25px;
 }
 
+.univList:hover {
+    box-shadow: 5px 5px 17px rgba(33,33,33,.8);
+}
+
+
+.pageArrows{
+    text-align: center;
+    height: 90vh;
+}
+
+.pageArrows:hover {
+    background-color: #2b2e46;
+    opacity: 0.5;
+}
+
+.pageArrow{
+    margin-top:45vh;
+    color: #fff;
+    opacity: 0.5;
+}
 

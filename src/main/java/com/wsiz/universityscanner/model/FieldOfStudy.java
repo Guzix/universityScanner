@@ -6,9 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.annotation.Nullable;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
+import javax.persistence.*;
 
 @Data
 @Builder
@@ -27,4 +25,12 @@ public class FieldOfStudy extends BaseEntity{
 
     @Nullable
     private Integer numberOfSemesters;
+
+    @ManyToOne
+    @JoinTable(
+            name = "university_field_of_studies",
+            joinColumns = @JoinColumn(name = "university_id"),
+            inverseJoinColumns = @JoinColumn(name = "field_of_studies_id")
+    )
+    private University university;
 }

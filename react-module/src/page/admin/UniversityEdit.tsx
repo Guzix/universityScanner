@@ -13,7 +13,7 @@ import {
 import {Content, Header} from "antd/es/layout/layout";
 import {useHistory, useParams} from "react-router-dom";
 import {enumToPrettyString} from "../misc";
-import {universityApi} from "../../api/export";
+import {scrapperApi, universityApi} from "../../api/export";
 import {PagePath} from "../../App";
 
 
@@ -43,7 +43,10 @@ export const UniversityEdit:React.FC<{}>=()=> {
                         street: result.address.street,
                         postalCode: result.address.postalCode,
                         buildingNumber: result.address.buildingNumber,
-                        province: result.address.province
+                        province: result.address.province,
+                        logoURL: result.logoURL,
+                        photoURL: result.photoURL,
+                        website: result.website,
                     })
                 } else {
                     notification.error({message: "Błąd pobieramnia"})
@@ -60,6 +63,10 @@ export const UniversityEdit:React.FC<{}>=()=> {
            name: values.name,
            summary: values.summary,
            universityType: values.universityType,
+           logoURL: values.logoURL,
+           photoURL: values.photoURL,
+           website: values.website,
+           scriptJS: university.scriptJS ? university.scriptJS : "",
            address:{
                ...university.address,
                city: values.city,
@@ -92,6 +99,19 @@ export const UniversityEdit:React.FC<{}>=()=> {
             history.push(PagePath.ADMIN_UNIVERSITY_LIST)
             notification.success({message:"Poprawne usunięcie"})
         } else {
+            notification.error({message: "Błąd połączenia"})
+        }
+    }
+
+    const onScriptExecute = async () => {
+        setDownloading(true)
+        const response = await scrapperApi.scrapFieldOfStudies(university.id)
+        if (response.status === 200  && response.data === "OK"){
+            window.location.reload()
+            notification.success({message:"Poprawne usunięcie"})
+        } else if (response.data === "REPLY_TIMEOUT"){
+            notification.error({message: "Błąd wykonywania skryptu"})
+        }else {
             notification.error({message: "Błąd połączenia"})
         }
     }
@@ -197,6 +217,17 @@ export const UniversityEdit:React.FC<{}>=()=> {
                             </Select>
                         </Form.Item>
 
+                        <Form.Item label={"URL Loga"} name={"logoURL"}  hasFeedback>
+                            <Input value={university?.logoURL}/>
+                        </Form.Item>
+
+                        <Form.Item label={"URL Zdjęcia"} name={"photoURL"}  hasFeedback>
+                            <Input value={university?.photoURL}/>
+                        </Form.Item>
+
+                        <Form.Item label={"URL Strony"} name={"website"}  hasFeedback>
+                            <Input value={university?.photoURL}/>
+                        </Form.Item>
                     </Form>
                 </Col>
             </Row>
@@ -206,15 +237,9 @@ export const UniversityEdit:React.FC<{}>=()=> {
                             Lista kierunków
                         </Button>
                         <Divider orientation={"left"}>Skrypt JS</Divider>
-                        {/*<Table*/}
-                        {/*    dataSource={university?.fieldOfStudies}*/}
-                        {/*    columns={[*/}
-                        {/*        {title: "id", dataIndex: "id"},*/}
-                        {/*        {title: "Nazwa", dataIndex: "name"}*/}
-                        {/*    ]}*/}
-                        {/*/>            */}
+
                         <Row>
-                            <Col span={18} offset={3}>
+                            <Col span={22} offset={1}>
                                 <Editor
                                     value={university.scriptJS}
                                     height={550}
@@ -225,7 +250,9 @@ export const UniversityEdit:React.FC<{}>=()=> {
                                 />
                             </Col>
                         </Row>
-
+                        <Button type={"dashed"} danger onClick={onScriptExecute} style={{textAlign:"center", margin:15}} >
+                            Wykonaj skrtpy
+                        </Button>
                     </div>
 
 

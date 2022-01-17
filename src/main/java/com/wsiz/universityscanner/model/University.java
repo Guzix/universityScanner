@@ -19,6 +19,12 @@ public class University extends BaseEntity{
 
     private String summary;
 
+    private String website;
+
+    private String logoURL;
+
+    private String photoURL;
+
     @Column(columnDefinition = "TEXT")
     private String scriptJS;
 
@@ -26,6 +32,11 @@ public class University extends BaseEntity{
     private Address address;
 
     @OneToMany
+    @JoinTable(
+            name = "university_field_of_studies",
+            joinColumns = @JoinColumn(name = "field_of_studies_id"),
+            inverseJoinColumns = @JoinColumn(name = "university_id" )
+    )
     private List<FieldOfStudy> fieldOfStudies;
 
     @Enumerated(EnumType.STRING)

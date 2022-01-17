@@ -34,23 +34,23 @@ export interface Pageable {
      * @type {number}
      * @memberof Pageable
      */
-    pageNumber?: any;
+    pageSize?: any;
     /**
      * 
      * @type {number}
      * @memberof Pageable
      */
-    pageSize?: any;
-    /**
-     * 
-     * @type {boolean}
-     * @memberof Pageable
-     */
-    unpaged?: any;
+    pageNumber?: any;
     /**
      * 
      * @type {boolean}
      * @memberof Pageable
      */
     paged?: any;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof Pageable
+     */
+    unpaged?: any;
 }

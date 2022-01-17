@@ -54,3 +54,6 @@ OUTPUT/
 scripts/prod_dump.sql
 scripts/local_dump.sql
 
+scrapper-module/scripts
+scrapper-module/values
+

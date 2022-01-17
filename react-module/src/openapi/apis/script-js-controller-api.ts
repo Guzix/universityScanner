@@ -24,11 +24,17 @@ export const ScriptJsControllerApiAxiosParamCreator = function (configuration?: 
     return {
         /**
          * 
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        test: async (options: any = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/scrapper/get`;
+        scrapFieldOfStudies: async (id: number, options: any = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling scrapFieldOfStudies.');
+            }
+            const localVarPath = `/api/scrapper/scrap/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -66,11 +72,12 @@ export const ScriptJsControllerApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async test(options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-            const localVarAxiosArgs = await ScriptJsControllerApiAxiosParamCreator(configuration).test(options);
+        async scrapFieldOfStudies(id: number, options?: any): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
+            const localVarAxiosArgs = await ScriptJsControllerApiAxiosParamCreator(configuration).scrapFieldOfStudies(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -87,11 +94,12 @@ export const ScriptJsControllerApiFactory = function (configuration?: Configurat
     return {
         /**
          * 
+         * @param {number} id 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        test(options?: any): AxiosPromise<string> {
-            return ScriptJsControllerApiFp(configuration).test(options).then((request) => request(axios, basePath));
+        scrapFieldOfStudies(id: number, options?: any): AxiosPromise<string> {
+            return ScriptJsControllerApiFp(configuration).scrapFieldOfStudies(id, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -105,11 +113,12 @@ export const ScriptJsControllerApiFactory = function (configuration?: Configurat
 export class ScriptJsControllerApi extends BaseAPI {
     /**
      * 
+     * @param {number} id 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof ScriptJsControllerApi
      */
-    public test(options?: any) {
-        return ScriptJsControllerApiFp(this.configuration).test(options).then((request) => request(this.axios, this.basePath));
+    public scrapFieldOfStudies(id: number, options?: any) {
+        return ScriptJsControllerApiFp(this.configuration).scrapFieldOfStudies(id, options).then((request) => request(this.axios, this.basePath));
     }
 }

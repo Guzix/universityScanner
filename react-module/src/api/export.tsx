@@ -1,6 +1,6 @@
 import {
     AddressControllerApi,
-    FieldOfStudyControllerApi,
+    FieldOfStudyControllerApi, ScriptJsControllerApi,
     UniversityControllerApi
 } from "../openapi";
 
@@ -22,3 +22,4 @@ const rootPath = `http://${window.location.host}`;
 export const universityApi = autobind(new UniversityControllerApi({basePath:rootPath}));
 export const fieldOfStudyApi = autobind(new FieldOfStudyControllerApi({basePath:rootPath}));
 export const addressApi = autobind(new AddressControllerApi({basePath:rootPath}));
+export const scrapperApi = autobind(new ScriptJsControllerApi({basePath:rootPath}));

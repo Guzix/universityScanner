@@ -13,8 +13,8 @@ public class ScriptJSController {
 
     private final ScriptJSService scriptJSService;
 
-    @PostMapping("/get")
-    public ActionResourceStatus test(){
-        return scriptJSService.getFieldOfStudies(2L);
+    @PostMapping("/scrap/{id}")
+    public ActionResourceStatus scrapFieldOfStudies(@PathVariable Long id){
+        return scriptJSService.getFieldOfStudies(id);
     }
 }

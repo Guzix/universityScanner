@@ -21,6 +21,8 @@ export const HomePage:React.FC<{}>=()=>{
 
     }
 
+    console.log(randomUniversity)
+
     React.useEffect(() => {
         getRandomUniversity()
     }, [])
@@ -34,9 +36,13 @@ export const HomePage:React.FC<{}>=()=>{
                         lineHeight: '160px',
                         textAlign: 'center',
                         background: '#153775',
+                        backgroundImage: rand.photoURL ? `url(${rand.photoURL})` : "",
+                        backgroundSize: "cover",
                     }}
                     >
-                        <div >
+                        <div style={{
+
+                        }}>
                             <p style={{fontSize: "2.5vw"}}>{rand.name}</p>
                         </div>
                     </h1>

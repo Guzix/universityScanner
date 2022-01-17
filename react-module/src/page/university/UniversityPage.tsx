@@ -12,6 +12,9 @@ import {universityApi} from "../../api/export";
 import {PagePath} from "../../App";
 import {enumToPrettyString} from "../misc";
 
+import { Fas } from "../../misc/misc";
+
+
 export const UniversityPage:React.FC<{}>=()=>{
     const history = useHistory();
     const [university, setUniversity] = React.useState<UniversityDto>({})
@@ -54,12 +57,26 @@ export const UniversityPage:React.FC<{}>=()=>{
         <Content>
             <Row>
                 <Col span={6}>
-                   <Card title={"Infornacje o uczelni"} >
+                   <Card title={<div>
+                        <div style={{
+                            height: 150,
+                            backgroundImage: university.logoURL ? `url(${university.logoURL})` : "",
+                            backgroundSize: "contain"
+                        }}/>
+                       <div>
+                           Infornacje o uczelni
+                       </div>
+                   </div>} >
                         <Descriptions>
                             <Descriptions.Item label={"Skrót"} span={3}>{university?.summary}</Descriptions.Item>
                             <Descriptions.Item label={"Miasto"} span={3}>{university?.address?.city}</Descriptions.Item>
                             <Descriptions.Item label={"Województwo"} span={3}>{enumToPrettyString(university?.address?.province)}</Descriptions.Item>
                             <Descriptions.Item label={"Rodzaj uczelni"} span={3}>{enumToPrettyString(university?.universityType)}</Descriptions.Item>
+                            {university.website &&
+                                <Descriptions.Item label={"Strona uczelni"} span={3} >
+                                    <Button onClick={() => window.open(university.website)} style={{width: "100%"}}><Fas icon={"globe"}/></Button>
+                                </Descriptions.Item>
+                            }
                         </Descriptions>
                    </Card>
                 </Col>

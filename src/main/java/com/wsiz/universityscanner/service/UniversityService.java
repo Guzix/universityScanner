@@ -15,6 +15,7 @@ import com.wsiz.universityscanner.utils.ModelMappingUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.PostConstruct;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +45,8 @@ public class UniversityService {
 
     protected ModelMapper mm = new ModelMapper();
 
+    @Value("${path.scrapper.script}")
+    private String scrapperPath;
 
     @PostConstruct
     public void configureModelMapper() {
@@ -53,6 +60,10 @@ public class UniversityService {
                 });
     }
 
+    public University save(University university) {
+        return universityRepository.save(university);
+    }
+
     public ActionResource<UniversityDto> saveDto(Long id, UniversityDto universityDto){
         try {
             if (id == null){
@@ -61,6 +72,9 @@ public class UniversityService {
                         .universityType(universityDto.getUniversityType())
                         .name(universityDto.getName())
                         .summary(universityDto.getSummary())
+                        .website(universityDto.getWebsite())
+                        .logoURL(universityDto.getLogoURL())
+                        .photoURL(universityDto.getPhotoURL())
                         .address(address)
                         .build();
                 universityRepository.save(university);
@@ -68,6 +82,11 @@ public class UniversityService {
 
             } else {
                 University objectToDb =  universityRepository.getByIdAndDeletedFalse(universityDto.getId());
+                if (objectToDb.getScriptJS() == null || !objectToDb.getScriptJS().equals(universityDto.getScriptJS())) {
+                    FileWriter fileWriter = new FileWriter(scrapperPath + "university_" +universityDto.getId() + ".js");
+                    fileWriter.write(universityDto.getScriptJS());
+                    fileWriter.close();
+                }
                 mm.map(universityDto, objectToDb);
                 universityRepository.save(objectToDb);
 
@@ -109,7 +128,7 @@ public class UniversityService {
 
     public ActionResource<UniversityDto> addOrSaveFieldOfStudy(Long id, FieldOfStudyDto fieldOfStudyDto){
         try {
-            FieldOfStudy fieldOfStudy = fieldOfStudyService.save(fieldOfStudyDto);
+            FieldOfStudy fieldOfStudy = fieldOfStudyService.saveDto(fieldOfStudyDto);
 
             University university = universityRepository.getByIdAndDeletedFalse(id);
 

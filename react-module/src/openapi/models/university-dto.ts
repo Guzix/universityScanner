@@ -59,6 +59,24 @@ export interface UniversityDto {
      * @memberof UniversityDto
      */
     scriptJS?: any;
+    /**
+     * 
+     * @type {string}
+     * @memberof UniversityDto
+     */
+    website?: any;
+    /**
+     * 
+     * @type {string}
+     * @memberof UniversityDto
+     */
+    logoURL?: any;
+    /**
+     * 
+     * @type {string}
+     * @memberof UniversityDto
+     */
+    photoURL?: any;
 }
 
 /**

@@ -23,4 +23,10 @@ public class UniversityDto extends BasicDto{
 
     private String scriptJS;
 
+    private String website;
+
+    private String logoURL;
+
+    private String photoURL;
+
 }

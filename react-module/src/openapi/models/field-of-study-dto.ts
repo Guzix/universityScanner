@@ -55,7 +55,8 @@ export interface FieldOfStudyDto {
     */
 export enum FieldOfStudyDtoFieldOfStudyTypeEnum {
     STACJONARNE = 'STACJONARNE',
-    ZAOCZNE = 'ZAOCZNE'
+    NIESTACJONARNE = 'NIESTACJONARNE',
+    STACJONARNEINIESTACJONARNE = 'STACJONARNE_I_NIESTACJONARNE'
 }
 /**
     * @export

@@ -17,7 +17,7 @@ export const AppNavbar: React.FC<{}>=()=>{
                 <Menu.Item key={1} onClick={()=>history.push(PagePath.HOME)}><HomeOutlined/> Strona domowa</Menu.Item>
                 <Menu.Item key={2} onClick={()=>history.push(PagePath.LIST)}><UnorderedListOutlined/> Uczelnie</Menu.Item>
                 {/*<Menu.Item key={3} onClick={()=>history.push(PagePath.MAP)}><CompassOutlined/> Mapa uczelni</Menu.Item>*/}
-                <Menu.Item key={4} onClick={()=>history.push(PagePath.ADMIN_UNIVERSITY_LIST)}><CompassOutlined/> Admin</Menu.Item>
+                {/*<Menu.Item key={4} onClick={()=>history.push(PagePath.ADMIN_UNIVERSITY_LIST)}><CompassOutlined/> Admin</Menu.Item>*/}
             </Menu>
 
     </>

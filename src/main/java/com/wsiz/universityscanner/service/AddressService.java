@@ -4,16 +4,21 @@ import com.wsiz.universityscanner.misc.ActionResourceStatus;
 import com.wsiz.universityscanner.model.Address;
 import com.wsiz.universityscanner.model.dto.AddressDto;
 import com.wsiz.universityscanner.repository.AddressRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.TestConstructor;
 
 @Service
 @Log4j2
 @RequiredArgsConstructor
 public class AddressService {
 
-    private final AddressRepository addressRepository;
+    @Autowired
+    private AddressRepository addressRepository;
 
 
     public Address save(AddressDto addressDto) {

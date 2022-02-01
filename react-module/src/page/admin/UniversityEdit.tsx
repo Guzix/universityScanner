@@ -250,7 +250,7 @@ export const UniversityEdit:React.FC<{}>=()=> {
                                 />
                             </Col>
                         </Row>
-                        <Button type={"dashed"} danger onClick={onScriptExecute} style={{textAlign:"center", margin:15}} >
+                        <Button type={"dashed"} danger onClick={() => onScriptExecute().finally(() => setDownloading(false))} style={{textAlign:"center", margin:15}} >
                             Wykonaj skrtpy
                         </Button>
                     </div>

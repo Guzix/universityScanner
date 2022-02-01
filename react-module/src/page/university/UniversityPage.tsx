@@ -56,48 +56,51 @@ export const UniversityPage:React.FC<{}>=()=>{
         </Header>
         <Content>
             <Row>
-                <Col span={6}>
-                   <Card title={<div>
+                <Col span={17} >
+                    <Card title={"Kierunki studiów"}>
+                        <Row>
+                            {!university.fieldOfStudies ? <Col>
+                                Brak kierunków
+                                </Col> :
+                                university?.fieldOfStudies?.map((fos: FieldOfStudyDto) =>
+                                    <Col span={7} offset={1}>
+                                        <Card title={<>{fos.name}</>}  className={"fieldList"}  >
+                                            <Descriptions>
+                                                <Descriptions.Item label={""} span={3}>{enumToPrettyString(fos.fieldOfStudyType)}</Descriptions.Item>
+                                                <Descriptions.Item label={""} span={3}>{enumToPrettyString(fos.fieldOfStudyLevel)}</Descriptions.Item>
+                                                <Descriptions.Item label={"Ilość semestrów"} span={3}>{fos.numberOfSemesters}</Descriptions.Item>
+                                            </Descriptions>
+                                        </Card>
+                                    </Col>
+                                )
+                            }
+
+                        </Row>
+                    </Card>
+                </Col>
+                <Col span={6} offset={1}>
+                    <Card title={<div>
                         <div style={{
-                            height: 150,
+                            height: 100,
                             backgroundImage: university.logoURL ? `url(${university.logoURL})` : "",
-                            backgroundSize: "contain"
+                            backgroundSize: "contain",
+                            backgroundRepeat: "no-repeat"
                         }}/>
-                       <div>
-                           Infornacje o uczelni
-                       </div>
-                   </div>} >
+                        <div>
+                            Infornacje o uczelni
+                        </div>
+                    </div>} >
                         <Descriptions>
                             <Descriptions.Item label={"Skrót"} span={3}>{university?.summary}</Descriptions.Item>
                             <Descriptions.Item label={"Miasto"} span={3}>{university?.address?.city}</Descriptions.Item>
                             <Descriptions.Item label={"Województwo"} span={3}>{enumToPrettyString(university?.address?.province)}</Descriptions.Item>
                             <Descriptions.Item label={"Rodzaj uczelni"} span={3}>{enumToPrettyString(university?.universityType)}</Descriptions.Item>
                             {university.website &&
-                                <Descriptions.Item label={"Strona uczelni"} span={3} >
-                                    <Button onClick={() => window.open(university.website)} style={{width: "100%"}}><Fas icon={"globe"}/></Button>
-                                </Descriptions.Item>
+                            <Descriptions.Item label={"Strona uczelni"} span={3} >
+                                <Button onClick={() => window.open(university.website)} style={{width: "100%"}}><Fas icon={"globe"}/></Button>
+                            </Descriptions.Item>
                             }
                         </Descriptions>
-                   </Card>
-                </Col>
-                <Col span={17} offset={1}>
-                    <Card title={"Kierunki studiów"}>
-                        <Row>
-                            {!university.fieldOfStudies ? <Col>
-                                Brak kierunków
-                                </Col> :
-                                university?.fieldOfStudies?.map((fos: FieldOfStudyDto) => <Col span={7} offset={1}>
-
-                                <Card title={<>{fos.name}</>}  className={"univList"}>
-                                    <Descriptions>
-                                        <Descriptions.Item label={"Typ"} span={3}>{enumToPrettyString(fos.fieldOfStudyType)}</Descriptions.Item>
-                                        <Descriptions.Item label={"Poziom"} span={3}>{enumToPrettyString(fos.fieldOfStudyLevel)}</Descriptions.Item>
-                                        <Descriptions.Item label={"Ilość semestrów"} span={3}>{fos.numberOfSemesters}</Descriptions.Item>
-                                    </Descriptions>
-                                </Card>
-                            </Col>)}
-
-                        </Row>
                     </Card>
                 </Col>
             </Row>

@@ -6,14 +6,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UniversityTest {
 
-    @Test
-    void configureModelMapper() {
-        assertTrue(true);
-
-    }
 
     @Test
     void save() {
+
+
         assertTrue(true);
 
     }

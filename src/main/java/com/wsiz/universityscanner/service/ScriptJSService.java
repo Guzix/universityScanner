@@ -102,7 +102,7 @@ public class ScriptJSService {
         }
     }
 
-    private static FieldOfStudy parseObject(JSONObject jsonObject)
+    public static FieldOfStudy parseObject(JSONObject jsonObject)
     {
         return FieldOfStudy.builder()
                 .name((String) jsonObject.get("name"))

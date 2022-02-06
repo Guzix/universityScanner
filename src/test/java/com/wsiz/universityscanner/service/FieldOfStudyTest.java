@@ -24,6 +24,8 @@ class FieldOfStudyTest {
 
     @Test
     void delete() {
+
+
         assertTrue(true);
 
     }
